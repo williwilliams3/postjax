@@ -31,12 +31,6 @@ class squiggle:
     def inverse_jacobian(self, theta):
         D = self.D
         a = self.a
-        inverse_jacobian = jnp.array([[1.0, 0.0], [a * jnp.cos(a * theta[0]), 1.0]])
-        return inverse_jacobian
-
-    def inverse_jacobian(self, theta):
-        D = self.D
-        a = self.a
         top_row = jnp.append(1.0, jnp.zeros(D - 1))
         bottom_rows = jnp.c_[
             a * jnp.cos(a * theta[0]) * jnp.ones(D - 1), jnp.eye(D - 1)

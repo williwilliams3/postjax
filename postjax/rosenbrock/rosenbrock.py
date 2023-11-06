@@ -20,9 +20,16 @@ class rosenbrock:
             self.b * (x[1:] - x[:-1] ** 2.0) ** 2.0 + (self.a - x[:-1]) ** 2.0
         )
 
+    def inverse_jacobian(self, theta):
+        raise NotImplementedError()
+
+    def fisher_metric_fn(self, theta):
+        inverse_jacobian = self.inverse_jacobian(theta)
+        metric = inverse_jacobian.T @ inverse_jacobian
+        return 0.5 * (metric + metric.T)
+
     def densities(self):
         a = self.a
-        b = self.b
         xlim = self.xlim
         ylim = self.ylim
         density1 = lambda x_lambda: scipy.stats.norm.pdf(x_lambda, a, np.sqrt(0.5))

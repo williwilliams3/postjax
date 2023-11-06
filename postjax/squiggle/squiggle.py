@@ -16,6 +16,7 @@ class squiggle:
         self.ylim = [-3, 3]
         if D > 2:
             self.Sig = jnp.diag(jnp.array([5] + (D - 1) * [0.05]))
+        self.precision = jnp.linalg.inv(self.Sig)
 
     def logp(self, x):
         g = jnp.insert(x[1:] + jnp.sin(self.a * x[0]), 0, x[0])
@@ -26,6 +27,27 @@ class squiggle:
             return jss.norm.logpdf(
                 g, self.mu, jnp.array([5] + (self.D - 1) * [0.05])
             ).sum()
+
+    def inverse_jacobian(self, theta):
+        D = self.D
+        a = self.a
+        inverse_jacobian = jnp.array([[1.0, 0.0], [a * jnp.cos(a * theta[0]), 1.0]])
+        return inverse_jacobian
+
+    def inverse_jacobian(self, theta):
+        D = self.D
+        a = self.a
+        top_row = jnp.append(1.0, jnp.zeros(D - 1))
+        bottom_rows = jnp.c_[
+            a * jnp.cos(a * theta[0]) * jnp.ones(D - 1), jnp.eye(D - 1)
+        ]
+        inverse_jacobian = jnp.r_[[top_row], bottom_rows]
+        return inverse_jacobian
+
+    def fisher_metric_fn(self, theta):
+        inverse_jacobian = self.inverse_jacobian(theta)
+        metric = inverse_jacobian.T @ self.precision @ inverse_jacobian
+        return 0.5 * (metric + metric.T)
 
     def densities(self):
         xlim = self.xlim

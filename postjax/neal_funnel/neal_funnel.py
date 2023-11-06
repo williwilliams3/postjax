@@ -70,3 +70,13 @@ class neal_funnel:
 
         density2 = np.vectorize(lambda t: margial_integrator(t, dim=0))
         return density2, density1
+
+    def generate_samples(self, N=10000):
+        D = self.D
+        sigma = self.sigma
+        mean = self.mean
+        x = np.random.normal(loc=0, scale=sigma, size=N)
+        a = [
+            np.random.normal(loc=mean, scale=jnp.exp(0.5 * xi), size=D - 1) for xi in x
+        ]
+        return np.c_[np.array(a), x]

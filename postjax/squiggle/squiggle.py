@@ -1,6 +1,7 @@
 import jax.numpy as jnp
 import jax.scipy.stats as jss
-import scipy
+from scipy import integrate
+import scipy.stats as scs
 import numpy as np
 
 
@@ -44,26 +45,23 @@ class squiggle:
         return 0.5 * (metric + metric.T)
 
     def densities(self):
-        xlim = self.xlim
-        ylim = self.ylim
         # only true for diagonal covariance matrix
-        density1 = lambda x_lambda: scipy.stats.norm.pdf(
+        density1 = lambda x_lambda: scs.norm.pdf(
             x_lambda, self.mu[0], np.sqrt(self.Sig[0, 0])
         )
 
+        def logp_numpy(x):
+            g = np.insert(x[1:] + np.sin(self.a * x[0]), 0, x[0])
+            return scs.multivariate_normal(mean=np.zeros(self.D), cov=self.Sig).logpdf(
+                g
+            )
+
         def margial_integrator(y, dim=1):
             if dim == 1:
-                I, _ = scipy.integrate.quad(
-                    lambda x: np.exp(self.logp(np.array([x, y]))),
-                    1.2 * xlim[0],
-                    1.2 * xlim[1],
-                )
+                I, _ = integrate.quad(lambda x: np.exp(logp_numpy([x, y])), -15, 15)
             if dim == 0:
-                I, _ = scipy.integrate.quad(
-                    lambda x: np.exp(self.logp(np.array([y, x]))),
-                    1.2 * ylim[0],
-                    1.2 * ylim[1],
-                )
+                I, _ = integrate.quad(lambda x: np.exp(logp_numpy([y, x])), -15, 15)
+            return I
 
         density2 = np.vectorize(margial_integrator)
         return density1, density2

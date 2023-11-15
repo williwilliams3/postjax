@@ -54,10 +54,7 @@ class hybrid_rosenbrock:
     def densities(self):
         a = self.a
         b = self.b
-        xlim = self.xlim
-        ylim = self.ylim
         density1 = lambda x_lambda: scipy.stats.norm.pdf(x_lambda, a, np.sqrt(0.5))
-
         x = np.random.normal(loc=a, scale=np.sqrt(0.5), size=10000)
         a_temp = [np.random.normal(loc=xi**2, scale=np.sqrt(0.5 / b)) for xi in x]
         kde = scipy.stats.gaussian_kde(a_temp)

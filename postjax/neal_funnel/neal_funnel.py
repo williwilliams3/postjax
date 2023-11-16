@@ -6,6 +6,7 @@ import numpy as np
 
 class neal_funnel:
     def __init__(self, D=2, mean=0.0, sigma=3.0):
+        self.name = "NealFunnel"
         self.sigma = sigma
         self.mean = mean
         self.D = D
@@ -13,6 +14,7 @@ class neal_funnel:
         self.ylim = [-10.0, 10.0]
 
     def logp(self, theta):
+        theta = jnp.array(theta)
         return jss.norm.logpdf(theta[self.D - 1], loc=0.0, scale=self.sigma) + jnp.sum(
             jss.norm.logpdf(
                 theta[: self.D - 1], loc=0.0, scale=jnp.exp(0.5 * theta[self.D - 1])

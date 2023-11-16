@@ -16,10 +16,11 @@ class hybrid_rosenbrock:
         self.ylim = [-1, 10]
 
     def logp(self, theta):
-        D = self.D
-        n1 = self.n1
+        D = int(self.D)
+        n1 = int(self.n1)
         b = self.b
         a = self.a
+        theta = jnp.array(theta)
         # First term
         logpdf = -((theta[0] - a) ** 2)
         # Terms dependent on x[0]

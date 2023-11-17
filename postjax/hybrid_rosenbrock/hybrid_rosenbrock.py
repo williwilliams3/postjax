@@ -42,9 +42,11 @@ class hybrid_rosenbrock:
         first_entry = jnp.sqrt(2)
         rest_entries = jnp.sqrt(2 * b) * jnp.ones(D - 1)
         diag_term = jnp.concatenate([jnp.array([first_entry]), rest_entries])
-        low_diag_term = -jnp.sqrt(2 * b) * theta[:-1].at[0::5].set(0.0)
+        low_diag_term = -2 * jnp.sqrt(2 * b) * theta[:-1].at[0::5].set(0.0)
         result_matrix = jnp.diag(diag_term) + jnp.diag(low_diag_term, k=-1)
-        result_matrix_new = result_matrix.at[1::5, 0].add(-jnp.sqrt(2 * b) * theta[0])
+        result_matrix_new = result_matrix.at[1::5, 0].add(
+            -2 * jnp.sqrt(2 * b) * theta[0]
+        )
         return result_matrix_new
 
     def fisher_metric_fn(self, theta):

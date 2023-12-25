@@ -8,7 +8,7 @@ The installation can be done terminal command  `pip install -e .` from the direc
 **Posteriordb models** requiere the directory path for loading the data, instructions can be foudn in [posteriordb](https://github.com/stan-dev/posteriordb-python/tree/main).
 
 
-Posteriordb models included
+Posteriordb models included:
 
 - [x] "arK-arK"
 - [x] "arma-arma11"

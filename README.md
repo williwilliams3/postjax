@@ -31,10 +31,10 @@ Let us see one example in action, which relies on blackjax for sampling.
 import jax
 import jax.numpy as jnp
 import blackjax
-import models.models_jax as modjax
+from postjax.posteriordb_models import low_dim_gauss_mix()
 
 # Load the model
-M = modjax.low_dim_gauss_mix()
+M = low_dim_gauss_mix()
 
 # Build the kernel
 step_size = 1e-3

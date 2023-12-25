@@ -1,6 +1,7 @@
 import jax.numpy as jnp
 import jax.scipy.stats as jss
-from utils import get_posterior
+from .utils import get_posterior
+
 
 class logearn_interaction:
     """
@@ -26,11 +27,11 @@ class logearn_interaction:
     }
     """
 
-    def __init__(self):
+    def __init__(self, pdb_path):
         self.D = 5
         self.name = "logearn_interaction"
         self.alpha = 1.0
-        posterior = get_posterior(self.name)
+        posterior = get_posterior(self.name, pdb_path="posteriordb/posterior_database")
         self.data = posterior.data.values()  # the data must be supplied
 
     def logp(self, x):

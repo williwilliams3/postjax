@@ -1,6 +1,7 @@
 import jax.numpy as jnp
 import jax.scipy.stats as jss
-from utils import get_posterior
+from .utils import get_posterior
+
 
 class arma11:
     """
@@ -38,11 +39,11 @@ class arma11:
     }
     """
 
-    def __init__(self, data={"N": 2, "y": [-3.58542974746427, 3.11625192303286]}):
+    def __init__(self, pdb_path="posteriordb/posterior_database"):
         self.D = 4
         self.name = "arma-arma11"
         self.alpha = 1.0
-        posterior = get_posterior(self.name)
+        posterior = get_posterior(self.name, pdb_path)
         self.data = posterior.data.values()  # the data must be supplied
 
     def logp(self, x):
@@ -56,9 +57,6 @@ class arma11:
         phi = x[1]
         theta = x[2]
         sigma = x[3]
-        # nu = np.zeros(T)
-        # err = np.zeros(T)
-        # NOT vectorized likelihood
 
         # likelihood
         nu = mu + phi * mu

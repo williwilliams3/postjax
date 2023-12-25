@@ -1,6 +1,7 @@
 import jax.numpy as jnp
 import jax.scipy.stats as jss
-from utils import get_posterior
+from .utils import get_posterior
+
 
 class garch11:
     """
@@ -29,12 +30,12 @@ class garch11:
     }
     """
 
-    def __init__(self):
+    def __init__(self, pdb_path="posteriordb/posterior_database"):
         self.D = 4
         self.name = "garch-garch11"
         self.alpha = 1.0
-        posterior = get_posterior(self.name)
-        self.data = posterior.data.values()  # the data must be supplied
+        posterior = get_posterior(self.name, pdb_path)
+        self.data = posterior.data.values()
 
     def logp(self, x):
         if len(x) != 4:

@@ -1,6 +1,6 @@
 import jax.numpy as jnp
 import jax.scipy.stats as jss
-from utils import get_posterior
+from .utils import get_posterior
 
 
 def exponentiated_quadratic(x_, alpha, rho):
@@ -48,11 +48,11 @@ class gp_regr:
     }
     """
 
-    def __init__(self):
+    def __init__(self, pdb_path="posteriordb/posterior_database"):
         self.D = 3
         self.name = "gp_pois_regr-gp_regr"
         self.alpha = 1.0
-        posterior = get_posterior(self.name)
+        posterior = get_posterior(self.name, pdb_path)
         self.data = posterior.data.values()  # the data must be supplied
 
     def logp(self, x):

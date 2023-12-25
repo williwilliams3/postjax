@@ -1,6 +1,7 @@
 import jax.numpy as jnp
 import jax.scipy.stats as jss
-from utils import get_posterior
+from .utils import get_posterior
+
 
 class blr:
     """
@@ -25,11 +26,11 @@ class blr:
     }
     """
 
-    def __init__(self):
+    def __init__(self, pdb_path="posteriordb/posterior_database"):
         self.D = 5 + 1
         self.name = "sblrc-blr"
         self.alpha = 1.0
-        posterior = get_posterior(self.name)
+        posterior = get_posterior(self.name, pdb_path)
         self.data = posterior.data.values()  # the data must be supplied
 
     def logp(self, x):

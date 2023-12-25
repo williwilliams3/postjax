@@ -1,4 +1,3 @@
-
 from posteriordb import PosteriorDatabase
 
 

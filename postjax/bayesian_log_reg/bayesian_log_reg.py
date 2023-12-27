@@ -12,14 +12,14 @@ current_directory = os.path.dirname(os.path.dirname(current_file_path))
 ########################################################
 # Model from RMHMC paper
 class baylogreg:
-    def __init__(self):
+    def __init__(self, file_name="data/australian.npy"):
         self.name = "BayLogReg"
-        self.data = self.load_data()
+        self.data = self.load_data(file_name)
         self.D = self.data["D"]
         self.alpha_var = 100.0  # prior variance
         self.standardized = True
 
-    def load_data(self, file_name="data/australian.npy"):
+    def load_data(self, file_name):
         data = np.load(os.path.join(current_directory, file_name))
         X = data[:, :-1]
         if self.standardized:

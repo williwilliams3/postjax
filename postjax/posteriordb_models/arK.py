@@ -34,7 +34,7 @@ class arK:
     }
     """
 
-    def __init__(self, pdb_path="posteriordb/posterior_database"):
+    def __init__(self, pdb_path="../posteriordb/posterior_database"):
         self.D = 7
         self.name = "arK-arK"
         self.alpha = 1.0

@@ -29,7 +29,7 @@ class low_dim_gauss_mix:
     }
     """
 
-    def __init__(self, pdb_path="posteriordb/posterior_database"):
+    def __init__(self, pdb_path="../posteriordb/posterior_database"):
         self.D = 5
         self.name = "low_dim_gauss_mix-low_dim_gauss_mix"
         self.alpha = 1.0

@@ -39,7 +39,7 @@ class arma11:
     }
     """
 
-    def __init__(self, pdb_path="posteriordb/posterior_database"):
+    def __init__(self, pdb_path="../posteriordb/posterior_database"):
         self.D = 4
         self.name = "arma-arma11"
         self.alpha = 1.0

@@ -1,6 +1,7 @@
 import jax.numpy as jnp
 import jax.scipy.stats as jss
 
+
 class eight_schools_centered:
     """
     data {
@@ -40,7 +41,7 @@ class eight_schools_centered:
         return (
             jnp.sum(
                 jss.norm.logpdf(
-                    np.array(data["y"]), loc=x[0:8], scale=jnp.array(data["sigma"])
+                    jnp.array(data["y"]), loc=x[0:8], scale=jnp.array(data["sigma"])
                 )
             )
             + jnp.sum(jss.norm.logpdf(x[0:8], loc=x[8], scale=jnp.exp(x[9])))
@@ -48,6 +49,7 @@ class eight_schools_centered:
             + jss.cauchy.logpdf(jnp.exp(x[9]), 0, scale=5)
             + x[9]
         )
+
 
 class eight_schools_noncentered:
     """

@@ -31,7 +31,9 @@ class logearn_interaction:
         self.D = 5
         self.name = "logearn_interaction"
         self.alpha = 1.0
-        posterior = get_posterior(self.name, pdb_path="posteriordb/posterior_database")
+        posterior = get_posterior(
+            self.name, pdb_path="../posteriordb/posterior_database"
+        )
         self.data = posterior.data.values()  # the data must be supplied
 
     def logp(self, x):

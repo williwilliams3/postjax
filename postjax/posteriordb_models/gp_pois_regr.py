@@ -48,7 +48,7 @@ class gp_regr:
     }
     """
 
-    def __init__(self, pdb_path="posteriordb/posterior_database"):
+    def __init__(self, pdb_path="../posteriordb/posterior_database"):
         self.D = 3
         self.name = "gp_pois_regr-gp_regr"
         self.alpha = 1.0

@@ -1,3 +1,4 @@
+import jax
 import jax.numpy as jnp
 import jax.scipy.stats as jss
 import scipy
@@ -73,12 +74,24 @@ class neal_funnel:
         density2 = np.vectorize(lambda t: margial_integrator(t, dim=0))
         return density2, density1
 
-    def generate_samples(self, N=10000):
+    def generate_samples_numpy(self, N=10000):
         D = self.D
         sigma = self.sigma
         mean = self.mean
-        x = np.random.normal(loc=0, scale=sigma, size=N)
-        a = [
-            np.random.normal(loc=mean, scale=jnp.exp(0.5 * xi), size=D - 1) for xi in x
-        ]
-        return np.c_[np.array(a), x]
+        Z = np.random.normal(size=(N, D))
+        theta_D = sigma * Z[:, -1]
+        theta_D1 = Z[:, 0 : (D - 1)] * np.exp(0.5 * theta_D[:, None]) + mean
+        return np.c_[theta_D1, theta_D]
+
+    def generate_samples(self, rng_key, N=10000):
+        D = self.D
+        sigma = self.sigma
+        mean = self.mean
+
+        # Use jax random functions instead of numpy random functions
+        Z = jax.random.normal(rng_key, shape=(N, D), dtype=jnp.float32)
+        theta_D = sigma * Z[:, -1]
+        theta_D1 = Z[:, 0 : (D - 1)] * jnp.exp(0.5 * theta_D[:, None]) + mean
+
+        # Stack arrays along the second axis
+        return jnp.c_[theta_D1, theta_D]

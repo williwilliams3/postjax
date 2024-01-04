@@ -1,3 +1,4 @@
+import jax
 import jax.numpy as jnp
 import jax.scipy.stats as jss
 from scipy import integrate
@@ -66,7 +67,7 @@ class squiggle:
         density2 = np.vectorize(margial_integrator)
         return density1, density2
 
-    def generate_samples(self, N=10000):
+    def generate_samples_numpy(self, N=10000):
         a = self.a
         D = self.D
         y = np.random.normal(
@@ -76,3 +77,16 @@ class squiggle:
         )
         y[:, 1:] -= np.sin(a * y[:, 0])[:, None]
         return y
+
+    def generate_samples(self, rng_key, N=10000):
+        a = self.a
+        D = self.D
+        mu = self.mu
+        scale1 = jnp.sqrt(5)
+        scale2_D = jnp.sqrt(0.05)
+        # Generate standard gaussians
+        Z = jax.random.normal(rng_key, shape=(N, D), dtype=jnp.float32)
+        theta_1 = scale1 * Z[:, 0] + mu[0]
+        theta_2_D = scale2_D * Z[:, 1:] + mu[1:] - jnp.sin(a * theta_1[:, None])
+        # Stack arrays
+        return jnp.c_[theta_1, theta_2_D]

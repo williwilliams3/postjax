@@ -64,7 +64,7 @@ class dogs_dogs:
         )
 
 
-class dogs_dogs_log:
+class dogs_log:
     """
     data {
       int<lower=0> n_trials;

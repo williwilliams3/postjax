@@ -1,36 +1,14 @@
 import jax.numpy as jnp
 import jax.scipy.stats as jss
+from .utils import get_posterior
 
 
 class eight_schools_centered:
-    """
-    data {
-        int <lower=0> J; // number of schools
-        real y[J]; // estimated treatment
-        real<lower=0> sigma[J]; // std of estimated effect
-    }
-    parameters {
-        real theta[J]; // treatment effect in school j
-        real mu; // hyper-parameter of mean
-        real<lower=0> tau; // hyper-parameter of sdv
-    }
-    model {
-        tau ~ cauchy(0, 5); // a non-informative prior
-        theta ~ normal(mu, tau);
-        y ~ normal(theta, sigma);
-        mu ~ normal(0, 5);
-    }
-    """
-
-    def __init__(self):
+    def __init__(self, pdb_path="../posteriordb/posterior_database"):
         self.D = 10
         self.name = "eight_schools-eight_schools_centered"
-        self.alpha = 1.0
-        self.data = {
-            "J": 8,
-            "y": [28, 8, -3, 7, -1, 1, 18, 12],
-            "sigma": [15, 10, 16, 11, 9, 11, 10, 18],
-        }
+        self.posterior = get_posterior(self.name, pdb_path)
+        self.data = self.posterior.data.values()
 
     def logp(self, x):
         # x[0:8] are theta, x[8] mu, x[9] tau,
@@ -52,40 +30,11 @@ class eight_schools_centered:
 
 
 class eight_schools_noncentered:
-    """
-    data {
-      int <lower=0> J; // number of schools
-      real y[J]; // estimated treatment
-      real<lower=0> sigma[J]; // std of estimated effect
-    }
-    parameters {
-      vector[J] theta_trans; // transformation of theta
-      real mu; // hyper-parameter of mean
-      real<lower=0> tau; // hyper-parameter of sd
-    }
-    transformed parameters{
-      vector[J] theta;
-      // original theta
-      theta=theta_trans*tau+mu;
-    }
-    model {
-      theta_trans ~ normal (0,1);
-      y ~ normal(theta , sigma);
-      mu ~ normal(0, 5); // a non-informative prior
-      tau ~ cauchy(0, 5);
-    }
-        }
-    """
-
-    def __init__(self):
+    def __init__(self, pdb_path="../posteriordb/posterior_database"):
         self.D = 10
         self.name = "eight_schools-eight_schools_noncentered"
-        self.alpha = 1.0
-        self.data = {
-            "J": 8,
-            "y": [28, 8, -3, 7, -1, 1, 18, 12],
-            "sigma": [15, 10, 16, 11, 9, 11, 10, 18],
-        }
+        self.posterior = get_posterior(self.name, pdb_path)
+        self.data = self.posterior.data.values()
 
     def logp(self, x):
         # x[0:8] are theta, x[8] mu, x[9] tau,

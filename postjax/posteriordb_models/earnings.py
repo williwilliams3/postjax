@@ -4,36 +4,11 @@ from .utils import get_posterior
 
 
 class logearn_interaction:
-    """
-    data {
-      int<lower=0> N;
-      vector[N] earn;
-      vector[N] height;
-      vector[N] male;
-    }
-    transformed data {
-      vector[N] log_earn;        // log transformation
-      vector[N] inter;           // interaction
-      log_earn = log(earn);
-      inter    = height .* male;
-    }
-    parameters {
-      vector[4] beta;
-      real<lower=0> sigma;
-    }
-    model {
-      log_earn ~ normal(beta[1] + beta[2] * height + beta[3] * male
-                        + beta[4] * inter, sigma);
-    }
-    """
-
-    def __init__(self, pdb_path):
+    def __init__(self, pdb_path="../posteriordb/posterior_database"):
         self.D = 5
-        self.name = "logearn_interaction"
+        self.name = "earnings-logearn_interaction"
         self.alpha = 1.0
-        posterior = get_posterior(
-            self.name, pdb_path="../posteriordb/posterior_database"
-        )
+        posterior = get_posterior(self.name, pdb_path)
         self.data = posterior.data.values()  # the data must be supplied
 
     def logp(self, x):

@@ -4,47 +4,11 @@ from .utils import get_posterior
 
 
 class nes:
-    """
-    data {
-      int<lower=0> N;
-      vector[N] partyid7;
-      vector[N] real_ideo;
-      vector[N] race_adj;
-      vector[N] educ1;
-      vector[N] gender;
-      vector[N] income;
-      int age_discrete[N];
-    }
-    transformed data {
-      vector[N] age30_44;        // age as factor
-      vector[N] age45_64;
-      vector[N] age65up;
-
-      for (n in 1:N) {
-        age30_44[n] = age_discrete[n] == 2;
-        age45_64[n] = age_discrete[n] == 3;
-        age65up[n]  = age_discrete[n] == 4;
-      }
-    }
-    parameters {
-      vector[9] beta;
-      real<lower=0> sigma;
-    }
-    model {                      // vectorization
-      partyid7 ~ normal(beta[1] + beta[2] * real_ideo + beta[3] * race_adj
-                        + beta[4] * age30_44 + beta[5] * age45_64
-                        + beta[6] * age65up + beta[7] * educ1
-                        + beta[8] * gender + beta[9] * income,
-                        sigma);
-    }
-    """
-
     def __init__(self, pdb_path="../posteriordb/posterior_database"):
         self.D = 10
         self.name = "nes2000-nes"
-        self.alpha = 1.0
-        posterior = get_posterior(self.name, pdb_path)
-        self.data = posterior.data.values()  # the data must be supplied
+        self.posterior = get_posterior(self.name, pdb_path)
+        self.data = self.posterior.data.values()
 
     def logp(self, x):
         # data values

@@ -4,42 +4,11 @@ from .utils import get_posterior
 
 
 class arK:
-    """
-    data {
-      int<lower=0> K;
-      int<lower=0> T;
-      real y[T];
-    }
-
-    parameters {
-      real alpha;
-      real beta[K];
-      real<lower=0> sigma;
-    }
-
-    model {
-      alpha ~ normal(0, 10);
-      beta ~ normal(0, 10);
-      sigma ~ cauchy(0, 2.5);
-
-      for (t in (K+1):T) {
-        real mu;
-        mu = alpha;
-
-        for (k in 1:K)
-          mu = mu + beta[k] * y[t - k];
-
-        y[t] ~ normal(mu, sigma);
-      }
-    }
-    """
-
     def __init__(self, pdb_path="../posteriordb/posterior_database"):
         self.D = 7
         self.name = "arK-arK"
-        self.alpha = 1.0
-        posterior = get_posterior(self.name, pdb_path)
-        self.data = posterior.data.values()  # the data must be supplied
+        self.posterior = get_posterior(self.name, pdb_path)
+        self.data = self.posterior.data.values()
 
     def logp(self, x):
         # data values

@@ -4,34 +4,11 @@ from .utils import get_posterior
 
 
 class blr:
-    """
-        data {
-      int <lower=0> N;
-      int <lower=0> D;
-      matrix [N, D] X;
-      vector [N] y;
-    }
-
-    parameters {
-      vector [D] beta;
-      real <lower=0> sigma;
-    }
-
-    model {
-      // prior
-      target += normal_lpdf(beta | 0, 10);
-      target += normal_lpdf(sigma | 0, 10);
-      // likelihood
-      target += normal_lpdf(y | X * beta, sigma);
-    }
-    """
-
     def __init__(self, pdb_path="../posteriordb/posterior_database"):
         self.D = 5 + 1
         self.name = "sblrc-blr"
-        self.alpha = 1.0
-        posterior = get_posterior(self.name, pdb_path)
-        self.data = posterior.data.values()  # the data must be supplied
+        self.posterior = get_posterior(self.name, pdb_path)
+        self.data = self.posterior.data.values()  # the data must be supplied
 
     def logp(self, x):
         # data values

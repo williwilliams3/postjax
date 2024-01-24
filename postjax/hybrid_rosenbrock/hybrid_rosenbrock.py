@@ -11,7 +11,7 @@ class hybrid_rosenbrock:
         self.b = b
         self.n1 = n1  # size of blocks
         self.D = D
-        self.name = "HybridRosenbrock"
+        self.name = "Rosenbrock"
         self.xlim = [-2, 3]
         self.ylim = [-1, 10]
 

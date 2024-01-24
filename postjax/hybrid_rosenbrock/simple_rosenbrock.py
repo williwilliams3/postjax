@@ -71,6 +71,6 @@ class simple_rosenbrock:
         theta_1 = 1 / jnp.sqrt(2) * Z[:, 0] + a
         samples.append(theta_1[:, None])
         for i in range(1, D):
-            theta_i = 1 / jnp.sqrt(2 * b) * Z[:, i] + theta_1**2
+            theta_i = 1 / jnp.sqrt(2 * b) * Z[:, i] + samples[-1].flatten() ** 2
             samples.append(theta_i[:, None])
         return jnp.concatenate(samples, axis=1)

@@ -1,12 +1,12 @@
+import jax
 import jax.numpy as jnp
-import jax.scipy.stats as jss
 import scipy
 import numpy as np
 
 
 class hybrid_rosenbrock:
     # https://onlinelibrary.wiley.com/doi/full/10.1111/sjos.12532
-    def __init__(self, a=1.0, b=100.0, D=2, n1=5):
+    def __init__(self, a=1.0, b=100.0, D=2, n1=3):
         self.a = a
         self.b = b
         self.n1 = n1  # size of blocks
@@ -64,7 +64,7 @@ class hybrid_rosenbrock:
         density2 = lambda y: kde(y)
         return density1, density2
 
-    def generate_samples(self, N=1000):
+    def generate_samples_numpy(self, N=1000):
         n1 = self.n1
         X = [scipy.stats.norm.rvs(self.a, 1 / np.sqrt(2), (N, 1))]
         for j in range(1, self.D):
@@ -78,3 +78,23 @@ class hybrid_rosenbrock:
                 )
             )
         return np.concatenate(X, axis=1)
+
+    def generate_samples(self, rng_key, N=1000):
+        D = self.D
+        a = self.a
+        b = self.b
+        n1 = self.n1
+        Z = jax.random.normal(rng_key, shape=(N, D), dtype=jnp.float32)
+        samples = []
+        theta_1 = 1 / jnp.sqrt(2) * Z[:, 0] + a
+        samples.append(theta_1[:, None])
+        for i in range(1, D):
+            if (i - 1) % n1 == 0:
+                index_dependency = 0
+            else:
+                index_dependency = -1
+            theta_i = (
+                1 / jnp.sqrt(2 * b) * Z[:, i] + samples[index_dependency].flatten() ** 2
+            )
+            samples.append(theta_i[:, None])
+        return jnp.concatenate(samples, axis=1)

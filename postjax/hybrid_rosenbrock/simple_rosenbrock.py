@@ -7,7 +7,7 @@ import numpy as np
 
 class simple_rosenbrock:
     # https://onlinelibrary.wiley.com/doi/full/10.1111/sjos.12532
-    def __init__(self, a=1.0, b=100.0, D=2, n1=5):
+    def __init__(self, D=2, a=1.0, b=100.0):
         self.a = a
         self.b = b
         self.D = D

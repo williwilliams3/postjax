@@ -6,7 +6,7 @@ import numpy as np
 
 class hybrid_rosenbrock:
     # https://onlinelibrary.wiley.com/doi/full/10.1111/sjos.12532
-    def __init__(self, a=1.0, b=100.0, D=2, n1=3):
+    def __init__(self, D=2, a=1.0, b=100.0, n1=3):
         self.a = a
         self.b = b
         self.n1 = n1  # size of blocks

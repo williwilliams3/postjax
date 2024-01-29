@@ -40,34 +40,3 @@ class arma11:
         )
         # Change of variable
         return log_target + sigma
-
-    def logp2(self, x):
-        if len(x) != 4:
-            raise ("Input must be 4 dim vector")
-        data = self.data
-        y = jnp.array(data["y"])
-        T = data["T"]
-        mu = x[0]
-        phi = x[1]
-        theta = x[2]
-        sigma = x[3]
-        nu = []
-        err = []
-        # NOT vectorized likelihood
-
-        nu.append(mu + phi * mu)
-        err.append(y[0] - nu)
-
-        for t in range(1, T):
-            nu.append(mu + phi * y[t - 1] + theta * err[-1])
-            err = y[t] - nu
-        log_target = jss.norm.logpdf(err, 0, scale=jnp.exp(sigma))
-        log_target += jss.norm.logpdf(err, 0, scale=jnp.exp(sigma))
-        log_target += (
-            jss.norm.logpdf(mu, 0, scale=10)
-            + jss.norm.logpdf(phi, 0, scale=2)
-            + jss.norm.logpdf(theta, 0, scale=2)
-            + jss.cauchy.logpdf(jnp.exp(sigma), 0, scale=2.5)
-            + sigma
-        )
-        return log_target

@@ -1,5 +1,5 @@
 from .ark import arK
-from .arma11 import arma11
+from .arma import arma11
 from .dogs import dogs_dogs, dogs_log
 from .earnings import logearn_interaction
 from .eight_schools import eight_schools_noncentered, eight_schools_centered
@@ -12,7 +12,7 @@ from .sblrc import blr
 
 __all__ = [
     "arK",
-    "arma11",
+    "arma",
     "dogs_dogs",
     "dogs_log",
     "eight_schools_noncentered",

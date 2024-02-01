@@ -1,4 +1,4 @@
-from .arK import arK
+from .ark import arK
 from .arma11 import arma11
 from .dogs import dogs_dogs, dogs_log
 from .earnings import logearn_interaction

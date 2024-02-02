@@ -12,7 +12,7 @@ from .sblrc import blr
 
 __all__ = [
     "arK",
-    "arma",
+    "arma11",
     "dogs_dogs",
     "dogs_log",
     "eight_schools_noncentered",

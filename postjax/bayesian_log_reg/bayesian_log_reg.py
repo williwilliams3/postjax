@@ -13,7 +13,7 @@ current_directory = os.path.dirname(os.path.dirname(os.path.dirname(current_file
 # Model from RMHMC paper
 class baylogreg:
     def __init__(self, dataset_name="australian", normalize=True):
-        self.name = "BayLogReg"
+        self.name = "LogReg"
         self.normalize = normalize
         self.data = self.load_data(f"data/{dataset_name}.npy", normalize)
         self.D = self.data["D"]

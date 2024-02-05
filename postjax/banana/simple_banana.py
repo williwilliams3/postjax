@@ -64,7 +64,7 @@ class banana:
         seed=1,
         N=10_000,
         show_progress=False,
-        samples_file=f"data/ground_truth_samples/Banana/reference_samples.npy",
+        samples_dir=f"data/ground_truth_samples/Banana/",
     ):
         data = dict(y=self.data.tolist())
         model = CmdStanModel(
@@ -82,6 +82,6 @@ class banana:
             show_progress=show_progress,
         )
         samples = fit.draws_pd()[["theta[1]", "theta[2]"]].to_numpy()
-        if samples_file is not None:
-            np.save(samples_file, samples)
+        if samples_dir is not None:
+            np.save(samples_dir + "reference_samples.npy", samples)
         return samples

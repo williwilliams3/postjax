@@ -58,30 +58,3 @@ class banana:
 
     def densities(self):
         raise NotImplementedError("This function is not implemented yet")
-
-    def generate_samples_stan(
-        self,
-        seed=1,
-        N=10_000,
-        show_progress=False,
-        samples_dir=f"data/ground_truth_samples/Banana/",
-    ):
-        data = dict(y=self.data.tolist())
-        model = CmdStanModel(
-            stan_file=os.path.join(current_directory, "stan_models/banana.stan")
-        )
-        fit = model.sample(
-            data=data,
-            thin=10,
-            chains=10,
-            iter_warmup=10_000,
-            iter_sampling=N,
-            adapt_delta=0.95,
-            # fix seed for reproducibility
-            seed=seed,
-            show_progress=show_progress,
-        )
-        samples = fit.draws_pd()[["theta[1]", "theta[2]"]].to_numpy()
-        if samples_dir is not None:
-            np.save(samples_dir + "reference_samples.npy", samples)
-        return samples

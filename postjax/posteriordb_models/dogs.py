@@ -43,6 +43,8 @@ class dogs_log:
         self.posterior = get_posterior(self.name, pdb_path)
         self.data = self.posterior.data.values()
         self.clipping_tolerance = 1e-5
+        self.xlim = [-3000, -400]
+        self.ylim = [-1700, -500]
 
     def logp(self, x):
         if len(x) != 2:

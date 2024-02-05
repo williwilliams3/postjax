@@ -2,6 +2,7 @@ import os
 import jax.numpy as jnp
 import jax.scipy.stats as jss
 import numpy as np
+from cmdstanpy import CmdStanModel
 
 current_file_path = os.path.abspath(__file__)
 current_directory = os.path.dirname(os.path.dirname(os.path.dirname(current_file_path)))
@@ -58,5 +59,29 @@ class banana:
     def densities(self):
         raise NotImplementedError("This function is not implemented yet")
 
-    def generate_samples(self, rng_key, N=1000):
-        raise NotImplementedError("This function is not implemented yet")
+    def generate_samples_stan(
+        self,
+        seed=1,
+        N=10_000,
+        show_progress=False,
+        samples_file=f"data/ground_truth_samples/Banana/reference_samples.npy",
+    ):
+        data = dict(y=self.data.tolist())
+        model = CmdStanModel(
+            stan_file=os.path.join(current_directory, "stan_models/banana.stan")
+        )
+        fit = model.sample(
+            data=data,
+            thin=10,
+            chains=10,
+            iter_warmup=10_000,
+            iter_sampling=N,
+            adapt_delta=0.95,
+            # fix seed for reproducibility
+            seed=seed,
+            show_progress=show_progress,
+        )
+        samples = fit.draws_pd()[["theta[1]", "theta[2]"]].to_numpy()
+        if samples_file is not None:
+            np.save(samples_file, samples)
+        return samples

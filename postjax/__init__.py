@@ -3,6 +3,7 @@ from postjax.hybrid_rosenbrock import hybrid_rosenbrock, simple_rosenbrock
 from postjax.squiggle import squiggle
 from postjax.banana import banana
 from postjax.bayesian_log_reg import baylogreg
+from postjax.two_moons import twomoons
 import postjax.posteriordb_models as posteriordb_models
 
 __all__ = [
@@ -11,6 +12,7 @@ __all__ = [
     "simple_rosenbrock",
     "squiggle",
     "banana",
+    "twomoons",
     "baylogreg",
     "posteriordb_models",
 ]

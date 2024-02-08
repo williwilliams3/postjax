@@ -2,7 +2,6 @@ import os
 import jax.numpy as jnp
 import jax.scipy.stats as jss
 import numpy as np
-from cmdstanpy import CmdStanModel
 
 current_file_path = os.path.abspath(__file__)
 current_directory = os.path.dirname(os.path.dirname(os.path.dirname(current_file_path)))

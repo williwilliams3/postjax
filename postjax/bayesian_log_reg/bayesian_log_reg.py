@@ -3,7 +3,6 @@ import numpy as np
 import jax.numpy as jnp
 from jax.nn import sigmoid
 import jax.scipy.stats as jss
-from cmdstanpy import CmdStanModel
 
 
 current_file_path = os.path.abspath(__file__)
@@ -54,40 +53,3 @@ class baylogreg:
         # Inspired by https://jax.readthedocs.io/en/latest/_autosummary/jax.numpy.linalg.svd.html
         metric = (X.T * preds * (1.0 - preds)) @ X + jnp.eye(dim) / alpha
         return 0.5 * (metric + metric.T)
-
-    def generate_samples_stan(
-        self,
-        seed=1,
-        N=10_000,
-        show_progress=False,
-        samples_dir=f"data/ground_truth_samples/LogReg",
-    ):
-
-        data = self.data
-        data["y"] = data["y"].astype(int)
-
-        model = CmdStanModel(
-            stan_file=os.path.join(current_directory, "stan_models/lr.stan")
-        )
-
-        # default options from posteriordb
-        fit = model.sample(
-            data=data,
-            thin=10,
-            chains=10,
-            iter_warmup=10000,
-            iter_sampling=N,
-            # fix seed for reproducibility
-            seed=seed,
-            show_progress=show_progress,
-        )
-        print(fit.summary())
-
-        param_names = [f"beta[{n + 1}]" for n in range(M.D)]
-        samples = fit.draws_pd()[param_names].to_numpy()
-
-        if samples_file is not None:
-
-            np.save(samples_dir + f"reference_samples_{self.dataset_name}.npy", samples)
-
-        return samples

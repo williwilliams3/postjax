@@ -19,6 +19,8 @@ class baylogreg:
         self.data = self.load_data(f"data/{dataset_name}.npy", normalize)
         self.D = self.data["D"]
         self.alpha_var = 100.0  # prior variance
+        self.xlim = [-0.3, 0.3]
+        self.ylim = [-0.5, 0.5]
 
     def load_data(self, file_name, normalize):
         data = np.load(os.path.join(current_directory, file_name))

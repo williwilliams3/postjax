@@ -37,7 +37,7 @@ venv_geom/
 .vscode
 
 # Repository specific
-data/ground_truth_samples
+ground_truth_samples/
 figs/
 tests/
 *.hpp

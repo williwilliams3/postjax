@@ -1,4 +1,5 @@
 import os
+import jax
 import jax.numpy as jnp
 import jax.scipy.stats as jss
 import numpy as np
@@ -53,6 +54,29 @@ class banana:
                 ],
             ]
         )
+        return 0.5 * (metric + metric.T)
+
+    def empirical_fisher_metric_fn(self, theta):
+        # Lan's fisher approximation
+        sigma_theta = self.sigma_theta
+        sigma_y = self.sigma_y
+        ys = self.data
+        quantity_prior = 1.0 / sigma_theta**2
+        n = len(ys)
+
+        metric = jnp.diag(jnp.array([quantity_prior, quantity_prior]))
+
+        def func(y):
+            c_grad = jax.grad(
+                lambda c_theta: jss.norm.logpdf(
+                    y, c_theta[0] + jnp.square(c_theta[1]), sigma_y
+                )
+            )(theta)
+            return jnp.outer(c_grad, c_grad), c_grad
+
+        outers, grads = jax.vmap(func)(ys)
+        grad = jnp.sum(grads, axis=0)
+        metric = metric + jnp.sum(outers, axis=0) - 1 / n * jnp.outer(grad, grad)
         return 0.5 * (metric + metric.T)
 
     def densities(self):

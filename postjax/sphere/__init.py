@@ -1,1 +1,1 @@
-from .fisher_von_misses import FishervonMises
+from postjax.sphere.fisher_vm import fisher_von_misses

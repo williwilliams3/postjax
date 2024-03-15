@@ -1,17 +1,17 @@
-import jax
 import jax.numpy as jnp
-import jax.scipy.stats as jss
 import numpy as np
 import scipy.stats as ss
 
+mu_default = jnp.array([-jnp.sqrt(0.5), -jnp.sqrt(0.5), 0])
 
-class FishervonMises:
+
+class fisher_von_misses:
     """
     fisher_von_misses
     https://github.com/microscopic-image-analysis/geosss/blob/main/geosss/distributions.py
     """
 
-    def __init__(self, D=2, mu=jnp.ones(2), kappa=1.0):
+    def __init__(self, D=2, mu=mu_default, kappa=1.0):
         self.D = D
         self.name = "FishervonMises"
         self.mu = mu

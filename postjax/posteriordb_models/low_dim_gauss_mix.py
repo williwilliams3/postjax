@@ -33,6 +33,7 @@ class low_dim_gauss_mix:
 
         # vectorized likelihood
         return (
+            # likelihood
             logsumexp(
                 jnp.vstack(
                     (
@@ -44,6 +45,7 @@ class low_dim_gauss_mix:
                 ),
                 axis=0,
             ).sum()
+            # prior
             + jss.norm.logpdf(x[0], 0, scale=2)
             + jss.norm.logpdf(x[0] + jnp.exp(x[1]), 0, scale=2)
             + x[1]
@@ -52,6 +54,7 @@ class low_dim_gauss_mix:
             + jss.norm.logpdf(jnp.exp(x[3]), 0, scale=2)
             + x[3]
             + jss.beta.logpdf(sigmoid(x[4]), 5, 5)
+            # change of variable
             - softplus(-x[4])
             - softplus(x[4])
         )

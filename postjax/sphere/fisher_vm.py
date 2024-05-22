@@ -11,7 +11,7 @@ class fisher_von_misses:
     https://github.com/microscopic-image-analysis/geosss/blob/main/geosss/distributions.py
     """
 
-    def __init__(self, D=2, mu=mu_default, kappa=1.0):
+    def __init__(self, D=2, mu=mu_default, kappa=5.0):
         self.D = D
         self.name = "FishervonMises"
         self.mu = mu

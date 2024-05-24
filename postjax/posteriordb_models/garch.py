@@ -47,7 +47,7 @@ def geometric_series_accumulation(a_array, b):
         update_value = prev_accumulation * b + a_i
         return update_value, update_value
 
-    initial_accumulation = jnp.zeros_like(a_array[0], dtype=jnp.float32)
+    initial_accumulation = jnp.zeros_like(a_array[0])
     geometric_series, info = jax.lax.scan(
         update_accumulation, initial_accumulation, a_array
     )

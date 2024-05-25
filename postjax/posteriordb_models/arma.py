@@ -47,7 +47,7 @@ def ma11_series_accumulation(b, y_array, mu, phi):
         update_value = (y_i - prev_accumulation) * b + a_i
         return update_value, update_value
 
-    initial_accumulation = jnp.zeros_like(mu * (1 + phi), dtype=jnp.float32)
+    initial_accumulation = jnp.zeros_like(mu * (1 + phi))
     geometric_series, info = jax.lax.scan(
         update_accumulation, initial_accumulation, y_array
     )

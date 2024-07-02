@@ -36,3 +36,14 @@ class twomoons:
             + jnp.log(1 + jnp.exp(-4 * a / 0.09))
         )
         return log_prob
+
+    def generate_samples(self, rng_key, num_samples=1000):
+        # TODO: Fix
+        noise_std = 0.2
+        angle_key, noise_key = jr.split(rng_key)
+        angle = jr.uniform(angle_key, (num_samples,)) * 2 * jnp.pi
+        x = 2 * jnp.cos(angle)
+        y = 2 * jnp.sin(angle)
+        x = jnp.where(angle > jnp.pi, x + 1, x - 1)
+        noise = jr.normal(noise_key, (num_samples, 2)) * noise_std
+        return jnp.stack([x, y], axis=1) + noise

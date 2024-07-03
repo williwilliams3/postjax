@@ -15,7 +15,7 @@ class simple_rosenbrock:
         self.xlim = [-2, 3]
         self.ylim = [-1, 10]
 
-    def logp(self, theta):
+    def logdensity_fn(self, theta):
         D = int(self.D)
         b = self.b
         a = self.a
@@ -51,7 +51,7 @@ class simple_rosenbrock:
         density2 = lambda y: kde(y)
         return density1, density2
 
-    def generate_samples_numpy(self, N=1000):
+    def generate_samples_numpy(self, num_samples=1000):
         X = [scipy.stats.norm.rvs(self.a, 1 / np.sqrt(2), (N, 1))]
         for j in range(1, self.D):
             index_dependency = -1
@@ -62,7 +62,7 @@ class simple_rosenbrock:
             )
         return np.concatenate(X, axis=1)
 
-    def generate_samples(self, rng_key, N=1000):
+    def generate_samples(self, rng_key, num_samples=1000):
         D = self.D
         a = self.a
         b = self.b

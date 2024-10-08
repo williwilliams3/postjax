@@ -41,3 +41,4 @@ ground_truth_samples/
 figs/
 tests/
 *.hpp
+data/

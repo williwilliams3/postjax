@@ -31,7 +31,7 @@ Let us see one example in action, which relies on blackjax for sampling.
 import jax
 import jax.numpy as jnp
 import blackjax
-from postjax.posteriordb_models import low_dim_gauss_mix()
+from postjax.posteriordb_models import low_dim_gauss_mix
 
 # Load the model
 M = low_dim_gauss_mix()
